@@ -19,7 +19,7 @@ for tentativa in 1..limite_tentativa
     puts "Será que acertou? Você chutou " + chute
 
     acertou = numero_secreto == chute.to_i
-
+#Oi
     if acertou
         puts "Acertou!"
         break
