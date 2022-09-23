@@ -39,31 +39,47 @@ def mensagem_vitoria(erros, situacao, mensagem_final, nome_jogador)
     puts "\n\n#{mensagem_final} #{nome_jogador}, você #{situacao}"
 end
 
+def converter_palavra_secreta_em_lista_underline(palavra_secreta)
+    array_palavra_secreta = palavra_secreta.scan(/./)
+    count = 0
+    for i in array_palavra_secreta
+        array_palavra_secreta[count] = '_'
+        count += 1
+    end
+    return array_palavra_secreta
+end
+
 def logica_jogo(erros, chutes, palavra_secreta_escolhida)
+    array_underline = converter_palavra_secreta_em_lista_underline(palavra_secreta_escolhida)
+    array_palavra_secreta = palavra_secreta_escolhida.scan(/./)
     while erros < 5
+        contagem = 0
+        contagem2 = contagem
+        
+        count = 0
         chute = pede_um_chute(erros, chutes)
         chutes << chute
-        #COMO COMPARAR LETRA POR LETRAR?
-        if chute.size == 1
-            for tentativa in chutes
-                if chute == tentativa.upcase
-                    puts "Acertou a letra"
-                    break
-                #SE ERRAR?
+
+        if chute.size == 1 #SE FOR UMA LETRA
+            for i in 1..array_palavra_secreta.length #PERCORRER O TAMANHO DE ARRAY
+                if chute == array_palavra_secreta[count] #VERIFICAR SE O CHUTE TA NA ARRAY DA PALAVRA SECRETA E SE SIM:
+                    array_underline[count] = chute #MUDA O UNDERLINE REFERENTE A LETRA CHUTADA
+                    contagem2 = contagem
+                    contagem += 1
                 end
+                count += 1
             end
-        #OKAY DAQUI PRA BAIXO?
-        else
-            if chute == palavra_secreta_escolhida
-                puts "Você acertou"
-                break
-            else
-                puts "Você errou a letra: #{chute}"
-            end          
+            print array_underline
         end
-        erros += 1
+        #ESSA VERIFICAÇÃO COMEÇOU NO IF DO FOR ACIMA. NÃO LEMBRO A LÓGICA Q USEI, MAS DEU CERTO. DEPOIS REFLITO
+        if contagem > contagem2
+        else
+            erros += 1
+        end  
     end
     return erros
+
+    #IF QUANTIDADE FOR MENOR = ERRO
 end
 
 def main()
@@ -75,11 +91,20 @@ def main()
     #COMO MOSTRAR UM INTERFACE LEGAL?
     nome_jogador = boas_vindas()
     palavra_secreta_escolhida = palavra_secreta()
-
     erros_contabilizados = logica_jogo(erros, chutes, palavra_secreta_escolhida)
     mensagem_vitoria(erros_contabilizados, situacao, mensagem_final, nome_jogador)
 
     jogar_novamente?()
 end
-
 main()
+=begin
+['p','a','o']
+['_','_','_']
+count = 0
+for i in lista
+    if chute == i
+        lista2[count] = chute
+    end
+    count += 1
+end
+=end
